@@ -24,14 +24,17 @@ const editDescription = document.getElementById("edit-description");
 
 const cancelEdit = document.getElementById("cancel-edit");
 
-// for total income, expence and balance
+
+// For total income, expense and balance
 const totalIncome = document.getElementById("total-income");
 const totalExpenses = document.getElementById("total-expenses");
 const balance = document.getElementById("balance");
 
-// for filter
+
+// For filters
 const typeFilter = document.getElementById("type-filter");
 const categoryFilter = document.getElementById("category-filter");
+
 
 // Display transactions
 function renderTransactions() {
@@ -57,29 +60,54 @@ function renderTransactions() {
         const transactionElement = document.createElement("div");
 
         transactionElement.innerHTML = `
-            <h3>${transaction.category}</h3>
-            <p>${transaction.description}</p>
-            <p>Amount: ₹${transaction.amount}</p>
-            <p>Type: ${transaction.type}</p>
-            <p>Date: ${transaction.date}</p>
+            <div class="transaction-main">
+                <h3>${transaction.category}</h3>
 
-            <button onclick="editTransaction(${transaction.id})">
-                Edit
-            </button>
+                <p style="color: ${transaction.type === "expense" ? "red" : "green"}">
+                    ${transaction.type === "expense" ? "-" : "+"} ₹${transaction.amount}
+                </p>
+            </div>
 
-            <button onclick="deleteTransaction(${transaction.id})">
-                Delete
-            </button>
+            <div class="transaction-details" style="display: none;">
+                <p>Description: ${transaction.description}</p>
+                <p>Type: ${transaction.type}</p>
+                <p>Date: ${transaction.date}</p>
+
+                <button onclick="editTransaction(${transaction.id})">
+                    Edit
+                </button>
+
+                <button onclick="deleteTransaction(${transaction.id})">
+                    Delete
+                </button>
+            </div>
         `;
+
+        const transactionDetails =
+            transactionElement.querySelector(".transaction-details");
+
+        transactionElement.addEventListener("click", function() {
+
+            if (transactionDetails.style.display === "none") {
+                transactionDetails.style.display = "block";
+            } else {
+                transactionDetails.style.display = "none";
+            }
+
+        });
 
         transactionList.appendChild(transactionElement);
     });
 }
 
+
+// Filter by type
 typeFilter.addEventListener("change", function() {
     renderTransactions();
 });
 
+
+// Filter by category
 categoryFilter.addEventListener("change", function() {
     renderTransactions();
 });
@@ -181,7 +209,8 @@ updateForm.addEventListener("submit", function(event) {
     updateSummary();
 });
 
-// update summary
+
+// Update summary
 function updateSummary() {
 
     let income = 0;
@@ -203,6 +232,7 @@ function updateSummary() {
     balance.textContent = income - expenses;
 }
 
+
 // Cancel editing
 cancelEdit.addEventListener("click", function() {
 
@@ -211,10 +241,17 @@ cancelEdit.addEventListener("click", function() {
     editingId = null;
 });
 
-// storage
+
+// Save transactions to local storage
 function saveTransactions() {
-    localStorage.setItem("transactions", JSON.stringify(transactions));
+
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
 }
 
+
+// Load transactions when page opens
 renderTransactions();
 updateSummary();
