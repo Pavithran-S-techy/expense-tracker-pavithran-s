@@ -35,6 +35,10 @@ const balance = document.getElementById("balance");
 const typeFilter = document.getElementById("type-filter");
 const categoryFilter = document.getElementById("category-filter");
 
+// for montly summary
+const month = document.getElementById("month");
+const monthlyExpenses = document.getElementById("monthly-expenses");
+
 
 // Display transactions
 function renderTransactions() {
@@ -251,7 +255,30 @@ function saveTransactions() {
     );
 }
 
+function updateMonthlyExpenses() {
+
+    let total = 0;
+
+    transactions.forEach(function(transaction) {
+
+        if (
+            transaction.type === "expense" &&
+            transaction.date.startsWith(month.value)
+        ) {
+            total += transaction.amount;
+        }
+
+    });
+
+    monthlyExpenses.textContent = total;
+}
+
+month.addEventListener("change", function() {
+    updateMonthlyExpenses();
+});
+
 
 // Load transactions when page opens
 renderTransactions();
 updateSummary();
+updateMonthlyExpenses();
