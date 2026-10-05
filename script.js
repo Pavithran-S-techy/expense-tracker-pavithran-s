@@ -25,19 +25,20 @@ const editDescription = document.getElementById("edit-description");
 const cancelEdit = document.getElementById("cancel-edit");
 
 
-// For total income, expense and balance
+// Summary
 const totalIncome = document.getElementById("total-income");
 const totalExpenses = document.getElementById("total-expenses");
 const balance = document.getElementById("balance");
 
 
-// For filters
-const typeFilter = document.getElementById("type-filter");
-const categoryFilter = document.getElementById("category-filter");
-
-// for montly summary
+// Monthly summary
 const month = document.getElementById("month");
 const monthlyExpenses = document.getElementById("monthly-expenses");
+
+
+// Filters
+const typeFilter = document.getElementById("type-filter");
+const categoryFilter = document.getElementById("category-filter");
 
 
 // Display transactions
@@ -105,13 +106,11 @@ function renderTransactions() {
 }
 
 
-// Filter by type
+// Filters
 typeFilter.addEventListener("change", function() {
     renderTransactions();
 });
 
-
-// Filter by category
 categoryFilter.addEventListener("change", function() {
     renderTransactions();
 });
@@ -144,6 +143,8 @@ form.addEventListener("submit", function(event) {
 
     updateSummary();
 
+    updateMonthlyExpenses();
+
     form.reset();
 });
 
@@ -160,6 +161,8 @@ function deleteTransaction(id) {
     renderTransactions();
 
     updateSummary();
+
+    updateMonthlyExpenses();
 }
 
 
@@ -179,6 +182,12 @@ function editTransaction(id) {
     editDescription.value = transaction.description;
 
     editForm.style.display = "block";
+
+    // Scroll to edit form
+    editForm.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
 }
 
 
@@ -211,6 +220,8 @@ updateForm.addEventListener("submit", function(event) {
     renderTransactions();
 
     updateSummary();
+
+    updateMonthlyExpenses();
 });
 
 
@@ -237,24 +248,7 @@ function updateSummary() {
 }
 
 
-// Cancel editing
-cancelEdit.addEventListener("click", function() {
-
-    editForm.style.display = "none";
-
-    editingId = null;
-});
-
-
-// Save transactions to local storage
-function saveTransactions() {
-
-    localStorage.setItem(
-        "transactions",
-        JSON.stringify(transactions)
-    );
-}
-
+// Monthly expense summary
 function updateMonthlyExpenses() {
 
     let total = 0;
@@ -273,12 +267,32 @@ function updateMonthlyExpenses() {
     monthlyExpenses.textContent = total;
 }
 
+
 month.addEventListener("change", function() {
     updateMonthlyExpenses();
 });
 
 
-// Load transactions when page opens
+// Cancel editing
+cancelEdit.addEventListener("click", function() {
+
+    editForm.style.display = "none";
+
+    editingId = null;
+});
+
+
+// Storage
+function saveTransactions() {
+
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
+}
+
+
+// Load data
 renderTransactions();
 updateSummary();
 updateMonthlyExpenses();

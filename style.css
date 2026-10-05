@@ -6,19 +6,45 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 25px;
-    background-color: #f8f6f0;
+    background-color: #dfe8df;
     color: #26352b;
 }
 
 header {
-    text-align: left;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto 25px auto;
 }
 
 header h1 {
     margin: 0;
     font-size: 30px;
+    color: #24452f;
+}
+
+
+/* Main dashboard */
+
+.dashboard {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.left-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* Summary and Monthly Summary */
+
+.top-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
 
@@ -26,16 +52,40 @@ header h1 {
 
 section,
 #edit-form {
-    max-width: 900px;
-    margin: 0 auto 25px auto;
-    padding: 22px;
-    background-color: #fffdf8;
-    border: 1px solid #d8d3c5;
+    padding: 20px;
+    background-color: #f4efe4;
+    border: 1px solid #b8b09f;
+    border-radius: 8px;
 }
 
 h2 {
     margin-top: 0;
-    color: #31543c;
+    color: #315b3c;
+}
+
+
+/* Summary */
+
+.top-sections section {
+    min-height: 180px;
+}
+
+.top-sections section div {
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #e8e1d2;
+    border-left: 4px solid #527a5c;
+}
+
+.top-sections h3 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.top-sections p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 
@@ -48,6 +98,7 @@ form div {
 label {
     display: block;
     margin-bottom: 5px;
+    color: #405344;
 }
 
 input,
@@ -55,9 +106,17 @@ select,
 textarea {
     width: 100%;
     padding: 9px;
-    border: 1px solid #bcb8ad;
-    border-radius: 3px;
-    background-color: #ffffff;
+    border: 1px solid #b8b09f;
+    border-radius: 4px;
+    background-color: #fffaf0;
+    color: #26352b;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #527a5c;
 }
 
 textarea {
@@ -65,68 +124,74 @@ textarea {
     resize: vertical;
 }
 
+
+/* Buttons */
+
 button {
     padding: 9px 14px;
     margin-right: 5px;
-    border: 1px solid #31543c;
-    border-radius: 3px;
-    background-color: #31543c;
+    border: none;
+    border-radius: 4px;
+    background-color: #527a5c;
     color: white;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #426b4e;
+    background-color: #3d6046;
 }
 
 
-/* Summary */
+/* Edit Form */
 
-section:first-of-type {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+#edit-form {
+    display: none;
+    background-color: #e8f0e5;
+    border-left: 5px solid #527a5c;
 }
 
-section:first-of-type h2 {
+
+/* Transaction History */
+
+.transaction-history {
+    height: 100%;
+    background-color: #ebe5d8;
+    color: #26352b;
+}
+
+.transaction-history h2 {
+    color: #315b3c;
+}
+
+.transaction-history label {
+    color: #405344;
+}
+
+.transaction-history input,
+.transaction-history select {
+    background-color: #fffaf0;
+}
+
+.transaction-history #type-filter,
+.transaction-history #category-filter {
     width: 100%;
-}
-
-section:first-of-type div {
-    flex: 1;
-    min-width: 150px;
-    padding: 12px;
-    border-bottom: 3px solid #31543c;
-}
-
-section:first-of-type h3 {
-    margin: 0 0 8px 0;
-    font-size: 14px;
-}
-
-section:first-of-type p {
-    margin: 0;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-
-/* Filters */
-
-#type-filter,
-#category-filter {
-    width: 48%;
-    margin-right: 1%;
+    margin-bottom: 10px;
 }
 
 
 /* Transactions */
 
+#transaction-list {
+    margin-top: 15px;
+}
+
 #transaction-list > div {
     margin-top: 10px;
     padding: 14px;
-    background-color: white;
-    border: 1px solid #d8d3c5;
+    background-color: #f8f3e9;
+    color: #26352b;
+    border: 1px solid #c8bfad;
+    border-radius: 5px;
 }
 
 .transaction-main {
@@ -149,7 +214,7 @@ section:first-of-type p {
 .transaction-details {
     margin-top: 12px;
     padding-top: 10px;
-    border-top: 1px solid #ddd8cc;
+    border-top: 1px solid #c9c1b1;
 }
 
 .transaction-details p {
@@ -159,32 +224,21 @@ section:first-of-type p {
 
 /* Mobile */
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
 
     body {
         padding: 15px;
     }
 
-    section,
-    #edit-form {
-        padding: 16px;
-    }
-
-    section:first-of-type {
+    .dashboard {
         display: block;
     }
 
-    section:first-of-type div {
-        margin-bottom: 10px;
+    .transaction-history {
+        margin-top: 20px;
     }
 
-    #type-filter,
-    #category-filter {
-        width: 100%;
-        margin: 5px 0;
-    }
-
-    .transaction-main {
-        align-items: flex-start;
+    .top-sections {
+        grid-template-columns: 1fr;
     }
 }
